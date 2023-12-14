@@ -1,0 +1,19 @@
+services:
+  fig:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - rm:true
+    image: fig
+    container_name: fig
+    tty: true
+    ports:
+      - 7777:8888
+    volumes:
+      - .:/project
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - capabilities: [gpu]
