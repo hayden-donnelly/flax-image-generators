@@ -1,20 +1,17 @@
 from setuptools import setup, find_packages
 
 setup(
-    name = 'no-cuda-ngp-nerf',
-    packages=['no_cuda_ngp_nerf'],
-    version = '0.1.0',
+    name = 'flax-image-generators',
+    packages=['flax_image_generators'],
+    version = '0.0.0',
     license='Apache-2.0',
-    description = 'An educational implementation of Instant NGP NeRF using JAX and Numba instead of custom CUDA kernels.',
+    description = 'Image generation models implemented in Flax.',
     long_description_content_type = 'text/markdown',
     author = 'Hayden Donnelly',
     author_email = 'donnellyhd@outlook.com',
-    url = 'https://github.com/hayden-donnelly/no-cuda-ngp-nerf',
+    url = 'https://github.com/hayden-donnelly/flax-image-generators',
     install_requires=[
         'flax>=0.7.2',
-        'pillow>=10.0.1',
-        'matplotlib>=3.7.3',
-        'numba>=0.58.0'
     ],
     classifiers=[
         'Intended Audience :: Developers',
