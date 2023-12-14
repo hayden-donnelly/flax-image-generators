@@ -5,26 +5,21 @@ import jax.numpy as jnp
 import flax.linen as nn
 
 class SinusoidalEmbedding(nn.Module):
-    embedding_dim:int
-    embedding_max_frequency:float
-    embedding_min_frequency:float = 1.0
+    dim:int
+    max_frequency:float
+    min_frequency:float = 1.0
     dtype:Any = jnp.float32
 
     @nn.compact
     def __call__(self, x):
-        frequencies = jnp.exp(
-            jnp.linspace(
-                jnp.log(self.embedding_min_frequency),
-                jnp.log(self.embedding_max_frequency),
-                self.embedding_dim // 2,
-                dtype=self.dtype
-            )
-        )
+        frequencies = jnp.exp(jnp.linspace(
+            start=jnp.log(self.max_frequency), stop=jnp.log(self.min_frequency), 
+            num=self.dim//2, dtype=self.dtype
+        ))
         angular_speeds = 2.0 * jnp.pi * frequencies
-        embeddings = jnp.concatenate(
-            [jnp.sin(angular_speeds * x), jnp.cos(angular_speeds * x)],
-            axis=-1,
-            dtype=self.dtype
+        embeddings = jnp.concatenate([
+            jnp.sin(angular_speeds*x), jnp.cos(angular_speeds*x)], 
+            axis=-1, dtype=self.dtype
         )
         return embeddings
 
@@ -129,8 +124,8 @@ class ConvDiffusion(nn.Module):
         )
 
         time_emb = SinusoidalEmbedding(
-            embedding_dim=self.embedding_dim,
-            embedding_max_frequency=self.embedding_max_frequency
+            dim=self.embedding_dim,
+            max_frequency=self.embedding_max_frequency
         )(diffusion_time)
 
         skips = []
